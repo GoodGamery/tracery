@@ -146,7 +146,7 @@ var tracery = function() {
                 // Apply modifiers
                 // TODO: Update parse function to not trigger on hashtags within parenthesis within tags,
                 //   so that modifier parameters can contain tags "#story.replace(#protagonist#, #newCharacter#)#"
-                
+
                 for (let i = 0; i < this.modifiers.length; i++) {
                   const modName = this.modifiers[i];
                   var modParams = [];
@@ -168,14 +168,16 @@ var tracery = function() {
                     this.errors.push("Missing modifier " + modName);
                     this.finishedText += "((." + modName + "))";
                   } else {
-                    this.finishedText = await mod(this.finishedText, modParams);
+                    const modText = await mod(this.finishedText, modParams);
+                    if (modText) {
+                      await this.expandChildren(modText, false);
+                    }
                   }
                 }
-
+    
                 for (var i = 0; i < this.postactions.length; i++) {
                     await this.postactions[i].activate();
                 }
-                return Promise.resolve(this);
 
                 // Perform post-actions
 
@@ -192,9 +194,7 @@ var tracery = function() {
                 break;
               }
             }
-            return promise;
         } else {
-          return promise;
           //console.warn("Already expanded " + this);
         }
 
@@ -249,7 +249,6 @@ var tracery = function() {
         return null;
     };
 
-    // TODO: promisify (per expand call)
     NodeAction.prototype.activate = async function() {
         var grammar = this.node.grammar;
         switch(this.type) {
