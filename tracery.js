@@ -154,13 +154,14 @@ var tracery = function() {
                     var regExp = /\(([^)]+)\)/;
 
                     // Todo: ignore any escaped commas.  For now, commas always split
-                    var results = regExp.exec(this.modifiers[index]);
+                    var results = regExp.exec(this.modifiers[i]);
                     if (!results || results.length < 2) {
                     } else {
                         modParams = results[1].split(",");
-                        modName = this.modifiers[index].substring(0, modName.indexOf("("));
+                        modName = this.modifiers[i].substring(0, modName.indexOf("("));
                     }
                   }
+
                   var mod = this.grammar.modifiers[modName];
 
                   // Missing modifier?
