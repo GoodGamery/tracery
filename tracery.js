@@ -148,7 +148,7 @@ var tracery = function() {
                 //   so that modifier parameters can contain tags "#story.replace(#protagonist#, #newCharacter#)#"
 
                 for (let i = 0; i < this.modifiers.length; i++) {
-                  const modName = this.modifiers[i];
+                  let modName = this.modifiers[i];
                   var modParams = [];
                   if (modName.indexOf("(") > 0) {
                     var regExp = /\(([^)]+)\)/;
