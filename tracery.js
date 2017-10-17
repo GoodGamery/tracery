@@ -157,6 +157,8 @@ var tracery = function() {
 
                     // Todo: ignore any escaped commas.  For now, commas always split
 
+
+
                     var results = regExp.exec(this.modifiers[i]);
                     if (!results || results.length < 2) {
                     } else {
@@ -165,7 +167,7 @@ var tracery = function() {
                  
                         modParams = utils.replace(results[1], escapedComma, escapedCommaPlaceholder);
                         modParams = modParams.split(",");
-                        modParams = modParams.map(modParam => utils.replace(modParam, escapedCommaPlaceholder, ','));
+                        modParams = modParams.map(modParam => utils.replace(modParam, escapedCommaPlaceholder, escapedComma));
 
                         modName = this.modifiers[i].substring(0, modName.indexOf("("));
                     }
@@ -648,7 +650,7 @@ var tracery = function() {
                 }
                 var rawSubstring;
                 if (lastEscapedChar !== undefined) {
-                    rawSubstring = escapedSubstring + "||" + rule.substring(lastEscapedChar + 1, end);
+                    rawSubstring = escapedSubstring + "\\" + rule.substring(lastEscapedChar + 1, end);
 
                 } else {
                     rawSubstring = rule.substring(start, end);
@@ -704,7 +706,7 @@ var tracery = function() {
                         }
                         break;
 
-                    case '||':
+                    case '\\':
                         escaped = true;
                         escapedSubstring = escapedSubstring + rule.substring(start, i);
                         start = i + 1;
